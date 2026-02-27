@@ -26,7 +26,7 @@ export const Navbar: React.FC = () => {
         return () => window.removeEventListener('scroll', handler);
     }, []);
 
-    const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const handleNav = (e: React.MouseEvent, href: string) => {
         e.preventDefault();
         setOpen(false);
         scrollTo(href);
@@ -35,8 +35,8 @@ export const Navbar: React.FC = () => {
     return (
         <header
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                    ? 'bg-[#0A0F1E]/95 backdrop-blur-md border-b border-white/5 shadow-lg shadow-black/30'
-                    : 'bg-transparent'
+                ? 'bg-[#0A0F1E]/95 backdrop-blur-md border-b border-white/5 shadow-lg shadow-black/30'
+                : 'bg-transparent'
                 }`}
         >
             <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -76,7 +76,7 @@ export const Navbar: React.FC = () => {
                         size="sm"
                         as="a"
                         href="#contact"
-                        onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNav(e, '#contact')}
+                        onClick={(e) => handleNav(e, '#contact')}
                     >
                         Get a Quote
                     </Button>
@@ -114,7 +114,7 @@ export const Navbar: React.FC = () => {
                                 size="md"
                                 as="a"
                                 href="#contact"
-                                onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNav(e, '#contact')}
+                                onClick={(e) => handleNav(e, '#contact')}
                                 className="w-full"
                             >
                                 Get a Quote

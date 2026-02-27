@@ -63,7 +63,7 @@ export const Hero: React.FC = () => {
                             size="lg"
                             as="a"
                             href="#contact"
-                            onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                            onClick={(e) => {
                                 e.preventDefault();
                                 scrollTo('#contact');
                             }}
@@ -75,7 +75,7 @@ export const Hero: React.FC = () => {
                             size="lg"
                             as="a"
                             href="#work"
-                            onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                            onClick={(e) => {
                                 e.preventDefault();
                                 scrollTo('#work');
                             }}

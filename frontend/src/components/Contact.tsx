@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { Mail, Phone, Send, CheckCircle, Loader2 } from 'lucide-react';
 import { SectionHeading } from './ui/SectionHeading';
 import { Button } from './ui/Button';
 
@@ -27,7 +27,6 @@ interface FormData {
 
 export const Contact: React.FC = () => {
     const [formState, setFormState] = useState<FormState>('idle');
-    const [error, setError] = useState('');
     const [data, setData] = useState<FormData>({
         name: '',
         email: '',
@@ -45,27 +44,18 @@ export const Contact: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setFormState('loading');
-        setError('');
 
-        try {
-            const apiBase = import.meta.env.VITE_API_URL ?? '';
-            const res = await fetch(`${apiBase}/api/contact`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            });
-
-            if (!res.ok) {
-                const body = await res.json().catch(() => ({}));
-                throw new Error(body.message || `Error ${res.status}`);
-            }
-
-            setFormState('success');
-        } catch (err: unknown) {
-            setFormState('error');
-            setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
-        }
+        // Static mode: open mailto with form data pre-filled
+        const subject = encodeURIComponent(
+            `[MK Video Edit] Enquiry from ${data.name} – ${data.projectType}`
+        );
+        const body = encodeURIComponent(
+            `Name: ${data.name}\nEmail: ${data.email}\nProject Type: ${data.projectType}\nFootage Link: ${data.footageLink || 'Not provided'}\n\nMessage:\n${data.message}`
+        );
+        window.open(`mailto:mkrnic03@gmail.com?subject=${subject}&body=${body}`, '_blank');
+        setFormState('success');
     };
+
 
     const inputClasses =
         'w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-600 text-sm focus:outline-none focus:border-orange-500/50 focus:bg-white/8 transition-all duration-200';
@@ -235,12 +225,8 @@ export const Contact: React.FC = () => {
                                     />
                                 </div>
 
-                                {formState === 'error' && (
-                                    <div className="flex items-center gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm" role="alert">
-                                        <AlertCircle size={16} aria-hidden="true" />
-                                        {error}
-                                    </div>
-                                )}
+
+
 
                                 <Button
                                     type="submit"
